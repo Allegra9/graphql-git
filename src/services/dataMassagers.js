@@ -14,6 +14,7 @@ data should come back formatted like:
 */
 
 export const topLanguages = repositories => {
+  console.log(repositories);
   const langObject = repositories.nodes.reduce((langs, { languages }) => {
     return languages.nodes.reduce((repLangs, { name, color }) => {
       if (!repLangs[name]) {
@@ -23,10 +24,13 @@ export const topLanguages = repositories => {
       return repLangs;
     }, langs);
   }, {});
+  console.log(langObject);
 
   const langArray = formatLanguagesForChart(langObject);
 
-  return langArray.sort((a, b) => b.value - a.value).slice(0, 5);
+  langArray.sort((a, b) => b.value - a.value).slice(0, 5);
+  console.log(langArray);
+  return langArray;
 };
 
 const entries = object => Object.keys(object).map(key => [key, object[key]]);
@@ -39,4 +43,4 @@ const formatLanguagesForChart = langObject =>
       value: count,
       color
     }))
-    .filter(data => data.color && data.value > 1);
+    .filter(data => data.color && data.value > 0);

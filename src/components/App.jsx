@@ -3,10 +3,12 @@ import TopLanguages from "./TopLanguages";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
+import styled from "@emotion/styled";
+
 const REPOSITORIES = gql`
   {
     viewer {
-      repositories(last: 10, isFork: false) {
+      repositories(last: 15, isFork: false) {
         nodes {
           name
           description
@@ -26,31 +28,30 @@ const REPOSITORIES = gql`
 export default class App extends Component {
   render() {
     return (
-      <div>
-        <div
-          style={{
-            width: "100%",
-            height: "75vh",
-            maxHeight: "600px",
-            maxWidth: "600px",
-            margin: "0 auto",
-            fontFamily:
-              '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-          }}
-        >
-          <h2 style={{ textAlign: "center" }}>Top Languages</h2>
+      <Container>
+        <h2>Top Languages</h2>
 
-          <Query query={REPOSITORIES} variables={{}}>
-            {({ data, loading }) =>
-              loading ? (
-                <span>Loading...</span>
-              ) : (
-                <TopLanguages repositories={data.viewer.repositories} />
-              )
-            }
-          </Query>
-        </div>
-      </div>
+        <Query query={REPOSITORIES} variables={{}}>
+          {({ data, loading }) =>
+            loading ? (
+              <span>Loading...</span>
+            ) : (
+              <TopLanguages repositories={data.viewer.repositories} />
+            )
+          }
+        </Query>
+      </Container>
     );
   }
 }
+
+const Container = styled("div")`
+  width: 100%;
+  height: 75vh;
+  max-height: 600px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+`;
